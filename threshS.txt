@@ -1,0 +1,17 @@
+## the step function
+model{
+  for (i in 1:n){
+    y[i] ~ dnorm(y.hat[i], prec[J[i]])
+      y.hat[i] <- beta +
+             delta*step(x[i]-phi)
+    J[i] <- 1+step(x[i]-phi)
+  }
+    delta ~ dnorm(0, 0.0001)
+    beta ~ dnorm(0, 0.0001)
+  phi ~ dunif(l,u)
+  for (j in 1:2){
+    prec[j] <- pow(sigma[j], -2)
+    sigma[j] ~ dunif(0, 50)
+  }
+}
+  

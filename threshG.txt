@@ -1,0 +1,17 @@
+
+## the general model
+model{
+  for (i in 1:n){
+    y[i] ~ dnorm(y.hat[i], prec)
+    y.hat[i] <- (beta[1]+delta[1]*step(x[i]-phi)) +
+                (beta[2]+delta[2]*step(x[i]-phi))*(x[i]-phi)
+  }
+  for (i in 1:2){
+    delta[i] ~ dnorm(0, 0.01)
+    beta[i] ~ dnorm(0, 0.001)
+  }
+  phi ~ dunif(l,u)
+  prec <- pow(sigma, -2)
+  sigma ~ dunif(0, 10)
+}
+  
